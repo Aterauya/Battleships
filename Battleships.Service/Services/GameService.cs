@@ -72,7 +72,12 @@ namespace Battleships.Service.Services
                 hitCell.Hit = true;
                 if(_ships.All(i => i.IsDestroyed == true))
                 {
-
+                    return new GuessBattleshipResult
+                    {
+                        IsSuccessful = true,
+                        ResultMessage = "Congratulations, you have sunk all the ships!",
+                        GameFinished = true,
+                    };
                 }
                 if(battleship.IsDestroyed)
                 {
