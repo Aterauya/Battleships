@@ -1,9 +1,7 @@
 ﻿using Battleships.Common;
-using System;
+using Battleships.Common.Enums;
+using Battleships.Common.Ships;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Tests
 {
@@ -72,7 +70,9 @@ namespace Battleships.Tests
         public static List<List<BoardCell>> GetBoardWithBattleshipOn()
         {
             var cell = new BoardCell(0, 0);
-            cell.HasBattleship = true;
+            var ship = new Battleship(OrientationEnum.Vertical);
+            cell.BattleshipIdentifier = ship.Identifier;
+
             return new List<List<BoardCell>>()
             {
                 new List<BoardCell>()

@@ -1,14 +1,11 @@
 ﻿using Battleships.Common;
+using Battleships.Common.Enums;
 using Battleships.Common.Ships;
 using Battleships.Service.Interfaces;
 using Battleships.Service.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Tests
 {
@@ -24,8 +21,8 @@ namespace Battleships.Tests
             // Runs
             _verticalShipPlacer = new Mock<IVerticalShipPlacerStrategy>();
             _verticalShipPlacer.Setup(i => i.PlaceShip(It.IsAny<List<List<BoardCell>>>(), It.IsAny<int>(),
-                It.IsAny<int>(), It.IsAny<ShipBase>())).Returns(new BattleshipResult { IsSuccessful = true});
-            _horizontalShipPlacer =  new Mock<IHorizontalShipPlacerStrategy>();
+                It.IsAny<int>(), It.IsAny<ShipBase>())).Returns(new BattleshipResult { IsSuccessful = true });
+            _horizontalShipPlacer = new Mock<IHorizontalShipPlacerStrategy>();
             _horizontalShipPlacer.Setup(i => i.PlaceShip(It.IsAny<List<List<BoardCell>>>(), It.IsAny<int>(),
                 It.IsAny<int>(), It.IsAny<ShipBase>())).Returns(new BattleshipResult { IsSuccessful = true });
         }

@@ -1,10 +1,5 @@
 ﻿using Battleships.Common;
 using Battleships.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Service.Services
 {
@@ -29,19 +24,19 @@ namespace Battleships.Service.Services
         {
             if (ship.Orientation == OrientationEnum.Horizontal)
             {
-                if(board.Count <= startX + ship.Size)
+                if (board.Count <= startX + ship.Size)
                 {
                     return new BattleshipResult
                     {
                         IsSuccessful = false,
                         ResultMessage = "Ship is too big to fit Horizontally"
-                    }; 
+                    };
                 }
                 return _horizontalShipPlacer.PlaceShip(board, startX, startY, ship);
             }
             if (ship.Orientation == OrientationEnum.Vertical)
             {
-                if(board.First().Count <= startY + ship.Size)
+                if (board.First().Count <= startY + ship.Size)
                 {
                     return new BattleshipResult
                     {

@@ -1,4 +1,5 @@
 ﻿using Battleships.Common;
+using Battleships.Common.Enums;
 using Battleships.Common.Ships;
 using Battleships.Service.Interfaces;
 using Battleships.Service.Services;
@@ -25,7 +26,7 @@ namespace Battleships
             ships.Add(new Destroyer(OrientationEnum.Vertical));
             ships.Add(new Destroyer(OrientationEnum.Horizontal));
             var startedResult = gameService.StartGame(ships, 10, 10);
-            if(startedResult.IsSuccessful)
+            if (startedResult.IsSuccessful)
             {
                 Console.WriteLine("Game has started\n" +
                     "Please target youe first cell. Eg 'A1'");
@@ -55,13 +56,14 @@ namespace Battleships
                             Console.WriteLine("Guess is not in correct format. Please try again");
                         }
 
-                    } catch(FormatException exception)
+                    }
+                    catch (FormatException exception)
                     {
                         // Log exception
                         Console.WriteLine("Guess is not in correct format. Please try again");
                     }
                 }
-                while(inProgress);
+                while (inProgress);
             }
         }
     }

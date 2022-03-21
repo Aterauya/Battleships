@@ -1,10 +1,5 @@
 ﻿using Battleships.Common;
 using Battleships.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Service.Strategies
 {
@@ -34,7 +29,6 @@ namespace Battleships.Service.Strategies
             for (var i = startX; i <= startX + ship.Size - 1; i++)
             {
                 board[i][startY].BattleshipIdentifier = ship.Identifier;
-                board[i][startY].HasBattleship = true;
                 cellsInhabited.Add(board[i][startY]);
             }
             ship.CellsInhabited = cellsInhabited;

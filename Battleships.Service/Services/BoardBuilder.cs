@@ -1,10 +1,5 @@
 ﻿using Battleships.Common;
 using Battleships.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships.Service.Services
 {
@@ -22,9 +17,9 @@ namespace Battleships.Service.Services
             for (int i = 0; i < xAmount; i++)
             {
                 var row = new List<BoardCell>();
-                for(int j = 0; j < yAmount; j++)
+                for (int j = 0; j < yAmount; j++)
                 {
-                    row.Add(new BoardCell(i + 1,j + 1));
+                    row.Add(new BoardCell(i + 1, j + 1));
                 }
                 board.Add(row);
             }

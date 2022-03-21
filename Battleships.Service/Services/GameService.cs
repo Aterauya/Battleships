@@ -1,6 +1,5 @@
 ﻿using Battleships.Common;
 using Battleships.Common.Results;
-using Battleships.Common.Ships;
 using Battleships.Service.Interfaces;
 
 namespace Battleships.Service.Services
@@ -36,7 +35,7 @@ namespace Battleships.Service.Services
                     var shipPlacerResponse = _shipPlacer.PlaceShip(_board, randomX, randomY, ship);
                     hasPlacedShip = shipPlacerResponse.IsSuccessful;
                 }
-                while(!hasPlacedShip);
+                while (!hasPlacedShip);
             }
             return new BattleshipResult
             {
@@ -56,7 +55,7 @@ namespace Battleships.Service.Services
                 };
             }
             var cell = _board[guessX][guessY];
-            if(cell.Hit)
+            if (cell.Hit)
             {
                 return new GuessBattleshipResult
                 {
@@ -65,12 +64,12 @@ namespace Battleships.Service.Services
                     GameFinished = false
                 };
             }
-            else if(!cell.Hit && cell.HasBattleship)
+            else if (!cell.Hit && cell.HasBattleship)
             {
                 var battleship = _ships.Find(i => i.Identifier == cell.BattleshipIdentifier);
-                var hitCell = battleship.CellsInhabited.Find(i => i.xCoordinate == guessX + 1 && i.yCoordinate == guessY + 1);
+                var hitCell = battleship.CellsInhabited.Find(i => i.XCoordinate == guessX + 1 && i.YCoordinate == guessY + 1);
                 hitCell.Hit = true;
-                if(_ships.All(i => i.IsDestroyed == true))
+                if (_ships.All(i => i.IsDestroyed == true))
                 {
                     return new GuessBattleshipResult
                     {
@@ -79,7 +78,7 @@ namespace Battleships.Service.Services
                         GameFinished = true,
                     };
                 }
-                if(battleship.IsDestroyed)
+                if (battleship.IsDestroyed)
                 {
                     return new GuessBattleshipResult
                     {
@@ -98,7 +97,7 @@ namespace Battleships.Service.Services
                     };
                 }
             }
-            else if(!cell.Hit && !cell.HasBattleship)
+            else if (!cell.Hit && !cell.HasBattleship)
             {
                 return new GuessBattleshipResult
                 {
