@@ -25,14 +25,17 @@ namespace Battleships.Service.Services
         /// <param name="startX">Where to start placing the ship horizontally</param>
         /// <param name="startY">Where to start placing the ship vertically</param>
         /// <param name="ship">The ship to place</param>
-        public bool PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship)
+        public BattleshipResult PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship)
         {
             if (ship.Orientation == OrientationEnum.Horizontal)
             {
                 if(board.Count <= startX + ship.Size)
                 {
-                    return false;
-                    //throw new Exception("Ship is too big to fit Horizontally");
+                    return new BattleshipResult
+                    {
+                        IsSuccessful = false,
+                        ResultMessage = "Ship is too big to fit Horizontally"
+                    }; 
                 }
                 return _horizontalShipPlacer.PlaceShip(board, startX, startY, ship);
             }
@@ -40,13 +43,19 @@ namespace Battleships.Service.Services
             {
                 if(board.First().Count <= startY + ship.Size)
                 {
-                    return false;
-                    //throw new Exception("Ship is too big to fit Vertically");
+                    return new BattleshipResult
+                    {
+                        IsSuccessful = false,
+                        ResultMessage = "Ship is too big to fit Vertically"
+                    };
                 }
                 return _verticalShipPlacer.PlaceShip(board, startX, startY, ship);
 
             }
-            return false;
+            return new BattleshipResult
+            {
+                IsSuccessful = false,
+            };
         }
     }
 }

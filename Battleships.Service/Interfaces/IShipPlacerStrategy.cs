@@ -9,6 +9,6 @@ namespace Battleships.Service.Interfaces
 {
     public interface IShipPlacerStrategy
     {
-        public bool PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship);
+        public BattleshipResult PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship);
     }
 }

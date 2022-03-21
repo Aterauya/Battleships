@@ -1,4 +1,5 @@
 ﻿using Battleships.Common;
+using Battleships.Common.Results;
 using Battleships.Common.Ships;
 using Battleships.Service.Interfaces;
 
@@ -16,13 +17,11 @@ namespace Battleships.Service.Services
             _shipPlacer = shipPlacer;
         }
 
-        public bool StartGame()
+        public BattleshipResult StartGame(List<ShipBase> ships, int xSize, int ySize)
         {
-            _board = _boardBuilder.BuildBoard(10, 10);
-            _ships = new List<ShipBase>();
-            _ships.Add(new Battleship(OrientationEnum.Horizontal));
-            _ships.Add(new Destroyer(OrientationEnum.Vertical));
-            _ships.Add(new Destroyer(OrientationEnum.Horizontal));
+            _ships = ships;
+            _board = _boardBuilder.BuildBoard(xSize, ySize);
+
 
             var random = new Random();
             var hasPlacedShip = false;
@@ -32,48 +31,85 @@ namespace Battleships.Service.Services
                 var randomY = 0;
                 do
                 {
-                    randomX = random.Next(0, 10);
-                    randomY = random.Next(0, 10);
-                    hasPlacedShip = _shipPlacer.PlaceShip(_board, randomX, randomY, ship);
+                    randomX = random.Next(0, xSize);
+                    randomY = random.Next(0, ySize);
+                    var shipPlacerResponse = _shipPlacer.PlaceShip(_board, randomX, randomY, ship);
+                    hasPlacedShip = shipPlacerResponse.IsSuccessful;
                 }
                 while(!hasPlacedShip);
             }
-            return true;
+            return new BattleshipResult
+            {
+                IsSuccessful = true,
+            };
         }
 
-        public bool ProcessGuess(int guessX, int guessY)
+        public GuessBattleshipResult ProcessGuess(int guessX, int guessY)
         {
             if (_board.Count <= guessX || _board.First().Count <= guessY)
             {
-                Console.WriteLine("This target exceeds the boards size");
-                return true;
+                return new GuessBattleshipResult
+                {
+                    IsSuccessful = false,
+                    ResultMessage = "This target exceeds the boards size",
+                    GameFinished = false
+                };
             }
             var cell = _board[guessX][guessY];
             if(cell.Hit)
             {
-                Console.WriteLine("You have already targeted this cell");
+                return new GuessBattleshipResult
+                {
+                    IsSuccessful = false,
+                    ResultMessage = "You have already targeted this cell",
+                    GameFinished = false
+                };
             }
             else if(!cell.Hit && cell.HasBattleship)
             {
                 var battleship = _ships.Find(i => i.Identifier == cell.BattleshipIdentifier);
                 var hitCell = battleship.CellsInhabited.Find(i => i.xCoordinate == guessX + 1 && i.yCoordinate == guessY + 1);
                 hitCell.Hit = true;
+                if(_ships.All(i => i.IsDestroyed == true))
+                {
+
+                }
                 if(battleship.IsDestroyed)
                 {
-                    Console.Write("Battleship is destroyed");
+                    return new GuessBattleshipResult
+                    {
+                        IsSuccessful = true,
+                        ResultMessage = "Battleship is destroyed",
+                        GameFinished = false
+                    };
                 }
                 else
                 {
-                    Console.WriteLine("You hit a battleship");
+                    return new GuessBattleshipResult
+                    {
+                        IsSuccessful = true,
+                        ResultMessage = "You hit a battleship",
+                        GameFinished = false
+                    };
                 }
             }
             else if(!cell.Hit && !cell.HasBattleship)
             {
+                return new GuessBattleshipResult
+                {
+                    IsSuccessful = false,
+                    ResultMessage = "You missed",
+                    GameFinished = false
+                };
                 Console.WriteLine("You missed");
             }
             cell.Hit = true;
 
-            return true;
+            return new GuessBattleshipResult
+            {
+                IsSuccessful = true,
+                GameFinished = false
+            };
         }
     }
 }

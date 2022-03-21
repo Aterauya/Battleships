@@ -28,7 +28,7 @@ namespace Battleships.Service.Services
                 }
                 board.Add(row);
             }
-            return board;        
+            return board;
         }
     }
 }

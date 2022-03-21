@@ -1,4 +1,5 @@
 ﻿using Battleships.Common;
+using Battleships.Common.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Battleships.Service.Interfaces
 {
     public interface IGameService
     {
-        bool StartGame();
-        bool ProcessGuess(int guessX, int guessY);
+        BattleshipResult StartGame(List<ShipBase> ships, int xSize, int ySize);
+        GuessBattleshipResult ProcessGuess(int guessX, int guessY);
     }
 }

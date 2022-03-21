@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Battleships.Service.Tests
+namespace Battleships.Tests
 {
     [TestClass]
     public class BoardBuilderTests
@@ -27,9 +27,9 @@ namespace Battleships.Service.Tests
             var count = board.SelectMany(list => list).Count();
 
             // Assert
-            Assert.AreEqual(rows, xAmount);
-            Assert.AreEqual(columns, yAmount);
-            Assert.AreEqual(count, cellCount);
+            Assert.AreEqual(xAmount, rows);
+            Assert.AreEqual(yAmount, columns);
+            Assert.AreEqual(cellCount, count);
         }
     }
 }

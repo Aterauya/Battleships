@@ -17,13 +17,17 @@ namespace Battleships.Service.Strategies
         /// <param name="startX">Where to start placing the ship horizontally</param>
         /// <param name="startY">Where to start placing the ship vertically</param>
         /// <param name="ship">The ship to place</param>
-        public bool PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship)
+        public BattleshipResult PlaceShip(List<List<BoardCell>> board, int startX, int startY, ShipBase ship)
         {
             for (var i = startX; i <= startX + ship.Size - 1; i++)
             {
                 if (board[i][startY].HasBattleship)
                 {
-                    return false;
+                    return new BattleshipResult
+                    {
+                        IsSuccessful = false,
+                        ResultMessage = "Battleship already on the requested cell"
+                    };
                 }
             }
             var cellsInhabited = new List<BoardCell>();
@@ -34,7 +38,10 @@ namespace Battleships.Service.Strategies
                 cellsInhabited.Add(board[i][startY]);
             }
             ship.CellsInhabited = cellsInhabited;
-            return true;
+            return new BattleshipResult
+            {
+                IsSuccessful = true,
+            };
         }
     }
 }

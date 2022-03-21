@@ -1,4 +1,6 @@
-﻿using Battleships.Service.Interfaces;
+﻿using Battleships.Common;
+using Battleships.Common.Ships;
+using Battleships.Service.Interfaces;
 using Battleships.Service.Services;
 using Battleships.Service.Strategies;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,9 +19,13 @@ namespace Battleships
                 .AddTransient<IVerticalShipPlacerStrategy, VerticalShipPlacerStrategy>()
                 .BuildServiceProvider();
 
-            var gameServive = serviceProvider.GetService<IGameService>();
-            var started = gameServive.StartGame();
-            if(started)
+            var gameService = serviceProvider.GetService<IGameService>();
+            var ships = new List<ShipBase>();
+            ships.Add(new Battleship(OrientationEnum.Horizontal));
+            ships.Add(new Destroyer(OrientationEnum.Vertical));
+            ships.Add(new Destroyer(OrientationEnum.Horizontal));
+            var startedResult = gameService.StartGame(ships, 10, 10);
+            if(startedResult.IsSuccessful)
             {
                 Console.WriteLine("Game has started\n" +
                     "Please target youe first cell. Eg 'A1'");
@@ -36,7 +42,13 @@ namespace Battleships
                         {
                             // Convert letter to its index in the alphabet
                             var guessX = char.ToUpper(guessLetter) - 64;
-                            inProgress = gameServive.ProcessGuess(guessX - 1, guessNumber - 1);
+                            var guessResult = gameService.ProcessGuess(guessX - 1, guessNumber - 1);
+                            inProgress = !guessResult.GameFinished;
+
+                            if (!guessResult.IsSuccessful)
+                            {
+                                Console.WriteLine(guessResult.ResultMessage);
+                            }
                         }
                         else
                         {
