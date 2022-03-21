@@ -16,6 +16,13 @@ namespace Battleships.Service.Services
             _shipPlacer = shipPlacer;
         }
 
+        /// <summary>
+        /// Starts the battleships game
+        /// </summary>
+        /// <param name="ships">The ships to place on the board</param>
+        /// <param name="xSize">The amount of columns on the board</param>
+        /// <param name="ySize">The amount of rows on the board</param>
+        /// <returns>Whether or not the game started successfully</returns>
         public BattleshipResult StartGame(List<ShipBase> ships, int xSize, int ySize)
         {
             _ships = ships;
@@ -43,6 +50,12 @@ namespace Battleships.Service.Services
             };
         }
 
+        /// <summary>
+        /// Processes the guess from the user
+        /// </summary>
+        /// <param name="guessX">The column the user guessed</param>
+        /// <param name="guessY">The row the user guessed</param>
+        /// <returns>User feedback if the guess hit or didn't hit a ship</returns>
         public GuessBattleshipResult ProcessGuess(int guessX, int guessY)
         {
             if (_board.Count <= guessX || _board.First().Count <= guessY)
@@ -105,7 +118,6 @@ namespace Battleships.Service.Services
                     ResultMessage = "You missed",
                     GameFinished = false
                 };
-                Console.WriteLine("You missed");
             }
             cell.Hit = true;
 

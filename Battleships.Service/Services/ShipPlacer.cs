@@ -1,4 +1,5 @@
 ﻿using Battleships.Common;
+using Battleships.Common.Enums;
 using Battleships.Service.Interfaces;
 
 namespace Battleships.Service.Services
